@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBA FDIC | USA</title>
+
+<style>
+:root {
+    --gold: #d9b45b;
+    --gold-light: #ffe7a0;
+    --bg: #090909;
+    --panel: #151515;
+    --text: #f7f3e9;
+    --muted: #aaa49a;
+    --border: #393226;
+    --danger: #ff8585;
+    --success: #91e4ad;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 50% 0%, #30230c 0%, transparent 45%),
+        var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.hidden { display: none !important; }
+
+.demo-banner {
+    padding: 9px 12px;
+    text-align: center;
+    background: #342810;
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+}
+
+header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: #0c0b09;
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.brand {
+    color: var(--gold);
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.brand span { color: #fff; }
+
+.small-note {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 18px 45px;
+}
+
+.panel {
+    padding: 24px;
+    margin-bottom: 20px;
+    background: linear-gradient(145deg, #191816, #111110);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+}
+
+h1, h2, h3 { margin-top: 0; }
+h2 { font-size: 22px; }
+p { color: var(--muted); }
+
+label {
+    display: block;
+    margin: 14px 0 7px;
+    color: #e5dfd1;
+    font-size: 13px;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    background: #0c0c0c;
+    color: white;
+    border: 1px solid #423d32;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px #d9b45b1c;
+}
+
+button.primary, button.secondary, button.danger {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+button.primary {
+    color: #171108;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border: 1px solid var(--gold);
+}
+
+button.primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+button.secondary {
+    background: #22211e;
+    color: white;
+    border: 1px solid #514a3d;
+}
+
+button.secondary:hover:not(:disabled) {
+    border-color: var(--gold);
+}
+
+button.danger {
+    background: transparent;
+    border: 1px solid #7c4141;
+    color: var(--danger);
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.full { width: 100%; margin-top: 18px; }
+
+.link-button {
+    margin-top: 8px;
+    padding: 10px 0;
+    color: var(--gold-light);
+    background: none;
+    border: 0;
+    font-weight: bold;
+}
+
+.link-button:hover { text-decoration: underline; }
+
+/* LOGIN AND REGISTRATION */
+.auth-panel {
+    position: relative;
+    max-width: 490px;
+    margin: 42px auto;
+    padding: 32px;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 0%, #4b381c55, transparent 55%),
+        linear-gradient(145deg, #191815, #0e0e0d);
+    border: 1px solid #725c30;
+    border-radius: 22px;
+    box-shadow: 0 25px 80px #0009, 0 0 35px #d9b45b0a;
+}
+
+.auth-emblem {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 19px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--gold);
+    border-radius: 23px;
+    background: linear-gradient(145deg, #4a3718, #17130c);
+    box-shadow: 0 0 30px #d9b45b19;
+    color: var(--gold-light);
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    transform: rotate(-3deg);
+}
+
+.auth-emblem span { transform: rotate(3deg); }
+
+.auth-heading {
+    margin: 0;
+    text-align: center;
+    color: var(--gold-light);
+    font-size: clamp(27px, 5vw, 35px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -.8px;
+}
+
+.auth-subtitle {
+    margin: 12px 0 24px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.auth-divider {
+    height: 1px;
+    margin: 22px 0;
+    background: linear-gradient(90deg, transparent, #8d703a, transparent);
+}
+
+.auth-status {
+    min-height: 0;
+    margin: 10px 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.auth-status:empty { display: none; }
+.success { color: var(--success); }
+.error { color: var(--danger); }
+
+.auth-switch-line {
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 13px;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.notice {
+    padding: 15px;
+    color: var(--gold-light);
+    background: #211b0e;
+    border: 1px solid #6b5729;
+    border-radius: 11px;
+    font-size: 13px;
+}
+
+.notice p {
+    margin-bottom: 0;
+    color: #d2c7a9;
+}
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.balance-card {
+    padding: 25px;
+    margin: 20px 0;
+    background: linear-gradient(135deg, #302513, #171510 65%, #111);
+    border: 1px solid #765e2b;
+    border-radius: 17px;
+}
+
+.balance-label {
+    color: #d0c4a2;
+    font-size: 14px;
+}
+
+.balance {
+    margin: 8px 0;
+    color: var(--gold-light);
+    font-size: clamp(30px, 6vw, 45px);
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.wallet-address {
+    color: var(--gold-light);
+    font-family: monospace;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.wallet-actions {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.wallet-actions button {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.action-panel { margin-top: 18px; }
+.method-fields { margin-top: 10px; }
+
+.review-card {
+    padding: 18px;
+    margin-top: 20px;
+    background: #211b0e;
+    border: 1px solid #7a632c;
+    border-radius: 12px;
+}
+
+.review-card h3 { color: var(--gold-light); }
+.review-card p { font-size: 14px; }
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.transaction:last-child { border-bottom: 0; }
+
+.transaction small {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+}
+
+.amount-in { color: var(--success); white-space: nowrap; }
+.amount-out { color: var(--danger); white-space: nowrap; }
+
+footer {
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+}
+
+/* DEDICATED WITHDRAWAL SCREEN */
+#dashboard.withdrawal-screen > .dashboard-top,
+#dashboard.withdrawal-screen > .balance-card,
+#dashboard.withdrawal-screen > .wallet-actions,
+#dashboard.withdrawal-screen > .notice,
+#dashboard.withdrawal-screen > section.panel {
+    display: none !important;
+}
+
+#dashboard.withdrawal-screen .grid {
+    display: block;
+}
+
+#dashboard.withdrawal-screen #depositPanel {
+    display: none !important;
+}
+
+#dashboard.withdrawal-screen #withdrawPanel {
+    display: block !important;
+    margin-top: 0;
+}
+
+/* Keep the withdrawal screen comfortable on phones */
+@media (max-width: 700px) {
+    main { margin-top: 18px; padding: 0 12px 30px; }
+    .panel { padding: 18px; }
+    .auth-panel { margin: 25px auto; padding: 25px 20px; }
+    .grid { grid-template-columns: 1fr; gap: 0; }
+    .wallet-actions { gap: 8px; }
+    .wallet-actions button { padding: 13px 5px; font-size: 13px; }
+    .brand { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div>
+            <div class="brand">SBA <span>FDIC</span></div>
+            <div class="small-note">Your "GOD DID" experience</div>
+        </div>
+        <div class="small-note">ACROSS USA</div>
+    </div>
+</header>
+
+<main>
+
+    <!-- LOGIN AND REGISTRATION -->
+    <section id="authScreen" class="panel auth-panel">
+
+        <div class="auth-emblem"><span>SBA</span></div>
+
+        <h1 id="authTitle" class="auth-heading">Welcome to SBA Wallet</h1>
+        <p id="authDescription" class="auth-subtitle">
+            Sign in to your personal account.
+        </p>
+
+        <div class="auth-divider"></div>
+
+        <div id="authMessage" class="auth-status"
+             role="status" aria-live="polite"></div>
+
+        <form id="loginForm">
+            <label for="loginEmail">Email address</label>
+            <input id="loginEmail" type="email"
+                   autocomplete="username"
+                   placeholder="you@example.com" required>
+
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password"
+                   autocomplete="current-password"
+                   placeholder="Enter your password" required>
+
+            <button class="primary full" type="submit">Sign In</button>
+        </form>
+
+        <form id="registerForm" class="hidden">
+            <label for="registerName">Full name</label>
+            <input id="registerName" type="text" maxlength="80"
+                   autocomplete="name" placeholder="Your full name" required>
+
+            <label for="registerEmail">Email address</label>
+            <input id="registerEmail" type="email"
+                   autocomplete="username"
+                   placeholder="you@example.com" required>
+
+            <label for="registerPassword">Create password</label>
+            <input id="registerPassword" type="password" minlength="6"
+                   autocomplete="new-password"
+                   placeholder="At least 6 characters" required>
+
+            <button class="primary full" type="submit">
+                Create Account
+            </button>
+        </form>
+
+        <div class="auth-divider"></div>
+
+        <p id="authSwitchText" class="auth-switch-line">
+            Don't have an account yet?
+        </p>
+
+        <button id="authSwitch" class="link-button" type="button">
+            Create an account
+        </button>
+
+        
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="hidden">
+
+        <div class="dashboard-top">
+            <div>
+                <h2>My Dashboard</h2>
+                <p>Welcome, <strong id="userName">User</strong></p>
+            </div>
+            <button id="logoutButton" class="secondary" type="button">
+                Sign Out
+            </button>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-label">Account Balance</div>
+            <div id="balanceDisplay" class="balance">$2,550,000.00</div>
+            <div class="small-note">
+                Withdrawable balance only — Redeemable for cash.
+            </div>
+
+            <hr style="border-color:#51452c; margin:22px 0;">
+
+            <div class="balance-label">SBA FDIC Wallet Address</div>
+            <p id="walletAddress" class="wallet-address"></p>
+
+            <button id="copyAddress" class="secondary" type="button">
+    Copy Wallet Address
+</button>
+<span id="copyMessage" class="small-note"></span>
+        </div>
+
+        <div class="wallet-actions">
+            <button id="depositButton" class="secondary" type="button"
+                    disabled title="Deposits are disabled">
+                Deposit 
+            </button>
+            <button id="withdrawButton" class="primary" type="button">
+                Withdrawal 
+            </button>
+        </div>
+
+        
+        <div class="grid">
+
+            <section id="depositPanel" class="panel action-panel hidden">
+                <h2>Deposits Disabled</h2>
+                <p>Deposits are unavailable.</p>
+            </section>
+
+            <section id="withdrawPanel" class="panel action-panel hidden">
+
+                <button id="backToDashboard"
+                        class="secondary back-button"
+                        type="button">
+                    ← Back to Dashboard
+                </button>
+
+                <h2>Withdrawal </h2>
+                <p>Select your withdrawal method.</p>
+
+                <form id="withdrawForm">
+                    <label for="withdrawMethod">Withdrawal Method</label>
+                    <select id="withdrawMethod" required>
+                        <option value="">Select a method</option>
+                        <option value="cashapp">Cash App </option>
+                        <option value="bank">Bank Transfer </option>
+                        <option value="paypal">PayPal </option>
+                        <option value="zelle">Zelle </option>
+                        <option value="venmo">Venmo </option>
+                        <option value="crypto">Crypto Transfer </option>
+                    </select>
+
+                    <div id="cashappFields" class="method-fields hidden">
+                        <label for="cashTag">Cash App Tag </label>
+                        <input id="cashTag" type="text" maxlength="80"
+                               placeholder="$CashappTag">
+                    </div>
+
+                    <div id="bankFields" class="method-fields hidden">
+                        <label for="accountHolder">Account Holder </label>
+                        <input id="accountHolder" type="text" maxlength="80">
+
+                        <label for="bankName">Bank Name </label>
+                        <input id="bankName" type="text" maxlength="80">
+
+                        <label for="accountNumber">Account Number </label>
+                        <input id="accountNumber" type="text" maxlength="40"
+                               inputmode="numeric" autocomplete="off">
+                    </div>
+
+                    <div id="paypalFields" class="method-fields hidden">
+                        <label for="paypalEmail">PayPal email </label>
+                        <input id="paypalEmail" type="email" maxlength="254"
+                               placeholder="you@example.com">
+                    </div>
+
+                    <div id="zelleFields" class="method-fields hidden">
+                        <label for="zelleContact">Zelle contact </label>
+                        <input id="zelleContact" type="text" maxlength="100">
+                    </div>
+
+                    <div id="venmoFields" class="method-fields hidden">
+                        <label for="venmoUsername">Venmo username </label>
+                        <input id="venmoUsername" type="text" maxlength="80"
+                               placeholder="@Venmouser">
+                    </div>
+
+                    <div id="cryptoFields" class="method-fields hidden">
+                        <label for="cryptoNetwork">Crypto network</label>
+                        <select id="cryptoNetwork">
+                            <option value="">Select network</option>
+                            <option value="Bitcoin">Bitcoin</option>
+                            <option value="Ethereum">Ethereum</option>
+                            <option value="Solana">Solana</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <label for="cryptoAddress">Destination address </label>
+                        <input id="cryptoAddress" type="text" maxlength="150"
+                               placeholder="Enter a sample address">
+                    </div>
+
+                    <label for="withdrawAmount">Amount (USD)</label>
+                    <input id="withdrawAmount" type="number"
+                           min="0.01" max="2550000" step="0.01"
+                           placeholder="Enter amount" required>
+
+                    <button class="primary full" type="submit">
+                        WITHDRAW
+                    </button>
+                </form>
+
+                <div id="withdrawMessage" role="status"
+                     aria-live="polite"></div>
+
+                <div id="withdrawReview" class="review-card hidden">
+                    <h3><CENTER>WARNING</CENTER></h3>
+                    <p id="reviewDetails"></p>
+
+                    
+                   
+                    <button id="cancelWithdrawal" class="primary full"
+        type="button">
+    Copy Wallet Address
+</button>
+                </div>
+            </section>
+        </div>
+
+        <section class="panel">
+            <h2>Transaction History</h2>
+            <p>All entries below are legit.</p>
+            <div id="transactionList"></div>
+        </section>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 SBA FDIC. All rights reserved.</p>
+<script>
+"use strict";
+
+const SBA_WALLET_ADDRESS = "bc1q6mpexpcwqrqc38c7rf2tyh0mhazhgzl72cd36p";
+const STARTING_BALANCE = 2550000;
+
+const ACCOUNT_KEY = "paraworld_demo_account_v1";
+const SESSION_KEY = "paraworld_demo_session_v1";
+const MIGRATION_KEY = "sba_demo_balance_migrated_v1";
+
+let account = null;
+let transactions = [];
+
+const $ = id => document.getElementById(id);
+
+function money(value) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    }).format(value);
+}
+
+function readJSON(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+function saveAccount() {
+    if (!account) return false;
+
+    try {
+        localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+        return true;
+    } catch {
+        showAuthMessage(
+            "Browser storage is unavailable. Your account may not be saved.",
+            true
+        );
+        return false;
+    }
+}
+
+function setSession(active) {
+    try {
+        if (active) {
+            localStorage.setItem(SESSION_KEY, "active");
+        } else {
+            localStorage.removeItem(SESSION_KEY);
+        }
+    } catch {
+        // The page can still be used for this browser session.
+    }
+}
+
+function showAuthMessage(message, isError = false) {
+    $("authMessage").textContent = message;
+    $("authMessage").className =
+        "auth-status " + (isError ? "error" : "success");
+}
+
+function showDashboard() {
+    $("authScreen").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+
+    $("dashboard").classList.remove("withdrawal-screen");
+    $("withdrawPanel").classList.add("hidden");
+    $("withdrawReview").classList.add("hidden");
+
+    $("userName").textContent = account.name || "User";
+    $("walletAddress").textContent = SBA_WALLET_ADDRESS;
+
+    renderBalance();
+    renderTransactions();
+}
+
+function showLogin() {
+    $("authScreen").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+
+    $("loginForm").classList.remove("hidden");
+    $("registerForm").classList.add("hidden");
+
+    $("authTitle").textContent = "Welcome to SBA Wallet";
+    $("authDescription").textContent =
+        "Sign in to access your personal SBA FDIC dashboard.";
+    $("authSwitchText").textContent = "Don't have an account yet?";
+    $("authSwitch").textContent = "Create an account";
+
+    showAuthMessage("");
+}
+
+function showRegister() {
+    $("loginForm").classList.add("hidden");
+    $("registerForm").classList.remove("hidden");
+
+    $("authTitle").textContent = "Create Your Account";
+    $("authDescription").textContent =
+        "Set up your SBA FDIC account in just a moment.";
+    $("authSwitchText").textContent = "Already have an account?";
+    $("authSwitch").textContent = "Back to sign in";
+
+    showAuthMessage("");
+}
+
+$("authSwitch").addEventListener("click", function () {
+    const registerIsOpen =
+        !$("registerForm").classList.contains("hidden");
+
+    if (registerIsOpen) {
+        showLogin();
+    } else {
+        showRegister();
+    }
+});
+
+$("registerForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = $("registerName").value.trim();
+    const email = $("registerEmail").value.trim().toLowerCase();
+    const password = $("registerPassword").value;
+
+    if (!name || !email || password.length < 6) {
+        showAuthMessage(
+            "Enter your name and email. Password must be at least 6 characters.",
+            true
+        );
+        return;
+    }
+
+    const existing = readJSON(ACCOUNT_KEY, null);
+
+    if (existing && existing.email === email) {
+        showAuthMessage(
+            "This email already has an SBA FDIC account. Sign in instead.",
+            true
+        );
+        return;
+    }
+
+    account = {
+        name,
+        email,
+        password,
+        balance: STARTING_BALANCE,
+        transactions: [{
+            type: "SBA FDIC account created",
+            amount: 0,
+            direction: "",
+            date: new Date().toISOString()
+        }]
+    };
+
+    transactions = account.transactions;
+
+    if (!saveAccount()) {
+        account = null;
+        return;
+    }
+
+    setSession(true);
+    showDashboard();
+});
+
+$("loginForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const email = $("loginEmail").value.trim().toLowerCase();
+    const password = $("loginPassword").value;
+    const saved = readJSON(ACCOUNT_KEY, null);
+
+    if (!saved || saved.email !== email || saved.password !== password) {
+        showAuthMessage(
+            "Email or password is incorrect. If this is your first visit, create an account.",
+            true
+        );
+        return;
+    }
+
+    account = saved;
+
+    try {
+        if (
+            localStorage.getItem(MIGRATION_KEY) !== "done" &&
+            account.balance === 15320
+        ) {
+            account.balance = STARTING_BALANCE;
+        }
+
+        localStorage.setItem(MIGRATION_KEY, "done");
+    } catch {}
+
+    if (!Number.isFinite(Number(account.balance))) {
+        account.balance = STARTING_BALANCE;
+    }
+
+    transactions = Array.isArray(account.transactions)
+        ? account.transactions
+        : [];
+
+    account.transactions = transactions;
+    saveAccount();
+    setSession(true);
+    showDashboard();
+});
+
+$("logoutButton").addEventListener("click", function () {
+    setSession(false);
+    account = null;
+    transactions = [];
+    resetActionPanels();
+    showLogin();
+});
+
+function renderBalance() {
+    $("balanceDisplay").textContent = money(Number(account.balance));
+}
+
+function renderTransactions() {
+    const list = $("transactionList");
+    list.replaceChildren();
+
+    if (!transactions.length) {
+        const empty = document.createElement("p");
+        empty.textContent = "No transactions yet.";
+        list.appendChild(empty);
+        return;
+    }
+
+    transactions.slice().reverse().forEach(function (transaction) {
+        const row = document.createElement("div");
+        row.className = "transaction";
+
+        const left = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = transaction.type;
+
+        const date = document.createElement("small");
+        date.textContent = new Date(transaction.date).toLocaleString();
+
+        left.append(title, date);
+
+        const amount = document.createElement("strong");
+        amount.textContent = money(Number(transaction.amount) || 0);
+
+        amount.className = transaction.direction === "in"
+            ? "amount-in"
+            : transaction.direction === "out"
+                ? "amount-out"
+                : "";
+
+        row.append(left, amount);
+        list.appendChild(row);
+    });
+}
+
+function addTransaction(type, amount, direction) {
+    const transaction = {
+        type,
+        amount,
+        direction,
+        date: new Date().toISOString()
+    };
+
+    transactions.push(transaction);
+    account.transactions = transactions;
+    saveAccount();
+    renderTransactions();
+}
+
+function resetActionPanels() {
+    $("dashboard").classList.remove("withdrawal-screen");
+    $("depositPanel").classList.add("hidden");
+    $("withdrawPanel").classList.add("hidden");
+    $("withdrawReview").classList.add("hidden");
+}
+
+$("depositButton").addEventListener("click", function () {
+    // Deposits intentionally remain disabled.
+    $("depositPanel").classList.add("hidden");
+});
+
+/* Open the dedicated withdrawal screen */
+$("withdrawButton").addEventListener("click", function () {
+    $("dashboard").classList.add("withdrawal-screen");
+    $("withdrawPanel").classList.remove("hidden");
+    $("withdrawMessage").textContent = "";
+    $("withdrawMessage").className = "";
+    $("withdrawReview").classList.add("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+/* Return to the dashboard */
+$("backToDashboard").addEventListener("click", function () {
+    $("dashboard").classList.remove("withdrawal-screen");
+    $("withdrawPanel").classList.add("hidden");
+    $("withdrawReview").classList.add("hidden");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+const fieldGroups = [
+    "cashappFields",
+    "bankFields",
+    "paypalFields",
+    "zelleFields",
+    "venmoFields",
+    "cryptoFields"
+];
+
+const methodRequiredFields = {
+    cashapp: ["cashTag"],
+    bank: ["accountHolder", "bankName", "accountNumber"],
+    paypal: ["paypalEmail"],
+    zelle: ["zelleContact"],
+    venmo: ["venmoUsername"],
+    crypto: ["cryptoNetwork", "cryptoAddress"]
+};
+
+$("withdrawMethod").addEventListener("change", function () {
+    const method = this.value;
+
+    fieldGroups.forEach(id => $(id).classList.add("hidden"));
+
+    const groupForMethod = {
+        cashapp: "cashappFields",
+        bank: "bankFields",
+        paypal: "paypalFields",
+        zelle: "zelleFields",
+        venmo: "venmoFields",
+        crypto: "cryptoFields"
+    };
+
+    if (groupForMethod[method]) {
+        $(groupForMethod[method]).classList.remove("hidden");
+    }
+
+    Object.values(methodRequiredFields).flat().forEach(id => {
+        $(id).required = false;
+    });
+
+    (methodRequiredFields[method] || []).forEach(id => {
+        $(id).required = true;
+    });
+
+    $("withdrawReview").classList.add("hidden");
+    $("withdrawMessage").textContent = "";
+});
+
+
+
+$("withdrawForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!account) {
+        $("withdrawMessage").textContent = "Please sign in first.";
+        $("withdrawMessage").className = "error";
+        return;
+    }
+
+    const method = $("withdrawMethod").value;
+    const amount = Number($("withdrawAmount").value);
+
+    if (!method || !Number.isFinite(amount) ||
+        amount <= 0 || amount > Number(account.balance)) {
+        $("withdrawMessage").textContent =
+            "Select a method and enter a valid amount within your balance.";
+        $("withdrawMessage").className = "error";
+        return;
+    }
+
+    for (const id of (methodRequiredFields[method] || [])) {
+        const field = $(id);
+
+        if (!field || !field.value.trim()) {
+            $("withdrawMessage").textContent =
+                "Complete all required fields.";
+            $("withdrawMessage").className = "error";
+            if (field) field.focus();
+            return;
+        }
+    }
+
+    const names = {
+        cashapp: "Cash App",
+        bank: "Bank Transfer",
+        paypal: "PayPal",
+        zelle: "Zelle",
+        venmo: "Venmo",
+        crypto: "Crypto Transfer"
+    };
+$("reviewDetails").style.color = "red";
+
+$("reviewDetails").textContent =
+    "A SERVICE FEE OF $830 HAS BEEN PLACED ON THIS ACCOUNT MAKING THE WITHDRAWAL BE PENDING UNTIL THE SERVICE DEPOSIT IS PAID INTO THIS BITCOIN WALLET //bc1q6mpexpcwqrqc38c7rf2tyh0mhazhgzl72cd36p// AND FUNDS WILL BE PROCESSED IMMEDIATELY";
+    $("withdrawReview").classList.remove("hidden");
+    $("withdrawMessage").textContent =
+       "Payment Ready";
+    $("withdrawMessage").className = "success";
+});
+
+async function copyWalletAddress() {
+    const address = $("walletAddress").textContent.trim();
+
+    try {
+        await navigator.clipboard.writeText(address);
+        $("copyMessage").textContent = "Wallet address copied!";
+        $("withdrawMessage").textContent = "Wallet address copied!";
+        $("withdrawMessage").className = "success";
+    } catch {
+        window.prompt("Copy wallet address:", address);
+    }
+}
+
+$("copyAddress").addEventListener("click", copyWalletAddress);
+$("cancelWithdrawal").addEventListener("click", copyWalletAddress);
+
+/* Restore a saved demo session */
+(function initialise() {
+    const saved = readJSON(ACCOUNT_KEY, null);
+    let session = null;
+
+    try {
+        session = localStorage.getItem(SESSION_KEY);
+    } catch {}
+
+    if (saved && session === "active") {
+        account = saved;
+
+        if (!Number.isFinite(Number(account.balance))) {
+            account.balance = STARTING_BALANCE;
+        }
+
+        transactions = Array.isArray(account.transactions)
+            ? account.transactions
+            : [];
+
+        account.transactions = transactions;
+        saveAccount();
+        showDashboard();
+    } else {
+        showLogin();
+    }
+})();
+
+</script>
+</body>
+</html>
+
