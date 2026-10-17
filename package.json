@@ -1,0 +1,16 @@
+
+{
+  "name": "paraworld-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PARAworld backend service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "multer": "^2.4.0"
+  }
+}
