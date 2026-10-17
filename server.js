@@ -2,8 +2,6 @@
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
-const nodemailer = require("nodemailer");
-const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,24 +15,19 @@ app.use(cors({
   methods: ["GET", "POST", "OPTIONS"]
 }));
 
-app.use(express.json());
-
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, callback) => {
     if (!file.mimetype.startsWith("image/")) {
-      return callback(new Error("Please upload an image file."));
+      return callback(new Error("Please upload an image."));
     }
     callback(null, true);
   }
 });
 
 app.get("/", (req, res) => {
-  res.json({
-    app: "PARAworld Backend",
-    status: "running"
-  });
+  res.json({ app: "PARAworld Backend", status: "running" });
 });
 
 app.get("/api/health", (req, res) => {
@@ -44,57 +37,55 @@ app.get("/api/health", (req, res) => {
 app.post("/api/support-image", upload.single("image"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({
-        error: "Please select an image."
-      });
+      return res.status(400).json({ error: "Please select an image." });
     }
 
-    const gmailUser = process.env.GMAIL_USER?.trim();
-    const gmailPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, "");
+    const apiKey = process.env.RESEND_API_KEY;
+    const supportEmail = process.env.SUPPORT_EMAIL;
 
-    if (!gmailUser || !gmailPassword) {
-      console.error("Gmail environment variables are missing.");
+    if (!apiKey || !supportEmail) {
+      console.error("RESEND_API_KEY or SUPPORT_EMAIL is missing.");
       return res.status(500).json({
         error: "Support email is not configured."
       });
     }
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: gmailUser,
-        pass: gmailPassword
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
       },
-      connectionTimeout: 15000,
-      greetingTimeout: 15000
+      body: JSON.stringify({
+        from: "PARAworld Support <onboarding@resend.dev>",
+        to: [supportEmail],
+        subject: "PARAworld Customer Support Image",
+        text: "A customer submitted an image for support review.",
+        attachments: [{
+          filename: req.file.originalname.replace(/[\\/]/g, "_"),
+          content: req.file.buffer.toString("base64")
+        }]
+      })
     });
 
-    await transporter.sendMail({
-      from: gmailUser,
-      to: gmailUser,
-      subject: "PARAworld Customer Support Image",
-      text: "A customer submitted an image for support review.",
-      attachments: [{
-        filename: path.basename(req.file.originalname),
-        content: req.file.buffer,
-        contentType: req.file.mimetype
-      }]
-    });
+    const result = await response.json();
 
-    console.log("Support image email sent successfully.");
+    if (!response.ok) {
+      console.error("Resend API error:", response.status, result);
+      return res.status(502).json({
+        error: "The email provider could not send the support email."
+      });
+    }
+
+    console.log("Support email accepted by Resend:", result.id);
 
     return res.json({
-      message: "Support image emailed successfully."
+      message: "Support email accepted for delivery."
     });
   } catch (error) {
-    console.error("Support image email failed:", {
-      message: error.message,
-      code: error.code,
-      responseCode: error.responseCode
-    });
-
+    console.error("Support image email failed:", error.message);
     return res.status(500).json({
-      error: "Unable to email the image. Please check the server configuration."
+      error: "Unable to send the support email."
     });
   }
 });
