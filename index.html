@@ -2404,6 +2404,39 @@ message.className = "screen-note success";
   }
 }
 
+/* PLEASE WAIT LOADER */
+#pageLoader {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+    background: rgba(9, 9, 9, 0.92);
+    color: #ffe7a0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+#pageLoader.hidden {
+    display: none !important;
+}
+
+#pageLoader .page-loader-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 231, 160, 0.25);
+    border-top-color: #f5c451;
+    border-radius: 50%;
+    animation: sbaLoaderSpin 0.8s linear infinite;
+}
+
+@keyframes sbaLoaderSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
