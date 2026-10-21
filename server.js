@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
@@ -6,13 +5,15 @@ const multer = require("multer");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+
 app.use(cors({
   origin: [
     "https://sbafdic-banking.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "http://localhost:5500",
     "http://127.0.0.1:5500"
-  ],
-  methods: ["GET", "POST", "OPTIONS"]
+  ]
 }));
 
 const upload = multer({
